@@ -120,15 +120,36 @@ Utiliza el comando de atajo para mostrar los detalles de la tabla `students`.
 La clave foránea aún falta. Primero, completa la tabla `majors`. Añade una columna `major_id` a esta tabla. Configúrala como un tipo `SERIAL` y hazla la PRIMARY KEY para esta tabla.
 **Acción**
 - Escribe `ALTER TABLE majors ADD COLUMN major_id SERIAL PRIMARY KEY;` en el indicador psql.
-- 
-  ### Paso 19: AÑADIR COLUMNA A LA TABLA majors
+ 
+### Paso 19: AÑADIR COLUMNA A LA TABLA majors
 Esta tabla solo tendrá una columna adicional para el nombre de la especialidad. Añade una columna a la tabla `majors` llamada `major`. Configúrala como `VARCHAR` con una longitud máxima de 50 y dale la restricción `NOT NULL`.
 **Acción**
 - Escribe `ALTER TABLE majors ADD COLUMN major VARCHAR(50) NOT NULL;` en el indicador psql.
 
 ### Paso 20: ESTABLECER CLAVE FORÁNEA EN LA TABLA students
 Configurar la columna `major_id` de la tabla `students` como una clave foránea que hace referencia a la columna `major_id` de la tabla `majors`.
+
 **Acción**
+
+ Escribe:
+  ```sql
+  ALTER TABLE students
+  ADD FOREIGN KEY (major_id)
+  REFERENCES majors (major_id);
+```
+
+### Paso 21: CREAR COLUMNA course_id
+Agregue una columna course_id. Dale un tipo de SERIAL y conviértelo en la clave principal.
+
+**Acción**
+
+ Escribe:
+  ```sql
+  ALTER TABLE courses
+  ADD COLUMN course_id
+  SERIAL PRIMARY KEY;
+```
+
 
 
 ### [Learn SQL by Building a Student Database: Part 2](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
@@ -145,63 +166,6 @@ eficiente y segura de tu entorno.
 
 Haz clic [aquí para iniciar el segundo tutorial](https://gitpod.io/new/?autostart=true#CODEROAD_TUTORIAL_URL=https%3A%2F%2Fraw.githubusercontent.com%2FLaboratoria%2Flearn-sql-by-building-a-student-database-part-2%2Fmain%2Ftutorial.json,CODEROAD_DISABLE_RUN_ON_SAVE=true/https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
 
-## 4. Configuración del Ambiente de Desarrollo
-
-Los tutoriales usan [Gitpod](https://gitpod.io/). Con Gitpod, las
-desarrolladores pueden iniciar instantáneamente un entorno de desarrollo
-completo con todas las herramientas y dependencias necesarias para
-trabajar en su proyecto, lo que elimina la necesidad de configurar
-manualmente el entorno en sus propias máquinas.
-
-A continuación encuentras el paso a paso para trabajar con Gitpod.
-Sin embargo puedes ver este [video](https://youtu.be/legfwHxU_cI)
-que hemos preparado.
-
-### Paso 1. Crea una cuenta en Gitpod usando Github
-
-Para crear una cuenta en Gitpod utilizando GitHub, sigue estos pasos:
-
-1. Dirígete al sitio web de Gitpod en [gitpod.io](https://www.gitpod.io/).
-2. Haz clic en el botón "Login" en la esquina superior derecha de la página.
-3. Selecciona la opción "Continue with GitHub".
-4. Serás redirigido a la página de autorización de GitHub. Si no has iniciado
-   sesión en GitHub, se te pedirá que lo hagas.
-5. Después de iniciar sesión en GitHub, se te pedirá que autorices a Gitpod
-   a acceder a tu cuenta de GitHub. Revisa los permisos y haz clic en
-   "Authorize Gitpod" (Autorizar Gitpod).
-6. Completa la informacion solicitada para compeltar el registro.
-7. ¡Listo! Ahora tienes una cuenta en Gitpod vinculada a tu cuenta de GitHub.
-
-### Paso 2. Crea un workspace para los tutoriales
-
-1. En [Gitpod](https://gitpod.io/workspaces), haz clic en el boton "New Workspace".
-2. En la opción "Select a repository" ingresa la url de repositorio del tutorial:
-   - Tutorial 1: [https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-1](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-1)
-   - Tutorial 2: [https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-1](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
-3. Verifica que en las demás campos esten elegidas las opciones "VSCode 1.90.2"
-   y "Standar".
-4. Haz clic en "Continue".
-5. Gitpod abrirá VSCode con el nuevo espacio de trabajo y comenzará a configurar
-   el entorno automáticamente.
-
-### Paso 3. Inicia el tutorial
-
-1. En el VSCode abierto por Gitpod, abre el menú hamburguesa (tres líneas
-   horizontales en la esquina superior izquierda).
-2. Ve al menú "View".
-3. Haz clic en la opción "Command Palette".
-4. Escribe "CodeRoad: Start" y elígelo entre las opciones para ejecutarlo.
-5. Se abrirá un nuevo panel con el tutorial.
-
-### Paso 4. Retomar un tutorial en el punto en el que lo dejé la última vez
-
-1. Inicia sesón en [Gitpod](https://gitpod.io/workspaces) y lista los workspaces
-2. En el workspace del tutorial que quieres retomar haz click en el
-   menú de tres puntos.
-3. Elige la opcion "Open"
-4. Gitpod abrirá VSCode con el nuevo espacio de trabajo y comenzará a configurar
-   el entorno automáticamente.
-5. Inicia el tutorial de nuevo siguiendo el paso 3.
 
 ## 5. Entregable
 
