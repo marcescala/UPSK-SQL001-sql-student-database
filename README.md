@@ -286,6 +286,62 @@ La variable `MAJOR` solo está capturando la primera palabra de cada línea. Est
    done
    ```
 
+### Paso 24 Agrega un comentarios
+
+Es útil planificar lo que desea que suceda. Para cada bucle, deberá agregar la especialidad a la base de datos si aún no está allí. Lo mismo para el curso. Luego, agregue una fila a la tabla majors_courses. Agregue estos comentarios de una sola línea en su bucle en este orden: `get major_id`, `if not found`, `insert major`, `get new major_id`, `get course_id`, `if not found`, `insert course`,`get new course_id`, `insert into majors_courses`.
+
+   1. **Acción**:
+      
+      Agregue los nueve comentarios de una sola línea sugeridos, cada uno en su propia línea, en el orden indicado
+      Debería verse así:
+      ```sh
+      do
+      # get major_id
+
+      # if not found
+
+      # insert major
+
+      # get new major_id
+
+      # get course_id
+
+      # if not found
+
+      # insert course
+
+      # get new course_id
+
+      # insert into majors_courses
+
+      done
+      ```
+### Paso 25 Agregar variable PSQL
+
+Utilizó el comando `psql` para iniciar sesión e interactuar con la base de datos. Puede usarlo para ejecutar un solo comando y salir. Encima de su bucle, agregue una variable `PSQL` que se vea así: `PSQL="psql -X --username=freecodecamp --dbname=students --no-align --tuples-only -c"`. Esto le permitirá consultar su base de datos desde su script. Las partes importantes son `username`, `dbname` y el indicador `-c` que es para ejecutar un solo comando y salir. El resto de las banderas son para formatear.
+
+   1. **Acción**:
+
+      Agrega la variable sugerida entre tu primer comentario y el bucle.
+      
+      El área sugerida debería verse así:
+
+      ```sh
+      PSQL="psql -X --username=freecodecamp --dbname=students --no-align --tuples-only -c"
+      ```
+      
+### Paso 26 Agrega MAJOR_ID
+
+
+Ahora, puedes consultar tu base de datos usando la variable PSQL de esta manera: $($PSQL "<query_here>"). El código entre paréntesis se ejecutará en un subshell, que es un proceso bash separado. Debajo del comentario get major_id en tu bucle, crea una variable MAJOR_ID. Establécela igual al resultado de una consulta que obtenga el major_id del MAJOR actual en el bucle. Asegúrate de poner tu variable MAJOR entre comillas simples.
+
+SUGERENCIAS
+A continuación, se muestra un ejemplo de cómo se ve: MAJOR_ID=$($PSQL "<query_here>")
+Para la consulta, debe utilizar las palabras clave SELECT, FROM y WHERE
+A continuación, se muestra un ejemplo de cómo se ve la parte de la consulta: SELECT <column_name> FROM <table_name> WHERE <condition>
+La condición que desea es major='$MAJOR'
+Así es como debería verse la consulta: SELECT major_id FROM majors WHERE major='$MAJOR'
+Así es como debería verse toda la línea: MAJOR_ID=$($PSQL "SELECT major_id FROM majors WHERE major='$MAJOR'")
 
 
 ### [Learn SQL by Building a Student Database: Part 2](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
