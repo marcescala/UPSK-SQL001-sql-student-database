@@ -69,107 +69,222 @@ Haz clic [aquí para iniciar el primer tutorial](https://gitpod.io/new/?autostar
    - **Resultado Esperado**: Deberías estar conectado a la base de datos `students`, lista para agregar tablas.
      
 ### Paso 7: CREAR TABLA
-Los archivos CSV contienen una serie de estudiantes con información sobre ellos, y algunos cursos y especialidades. Tendrás cuatro tablas: una para `students` y su información, una para cada especialidad `majors`, otra para cada curso `courses` y una última para mostrar qué cursos están incluidos en cada especialidad `majors_courses`.
+   Los archivos CSV contienen una serie de estudiantes con información sobre ellos, y algunos cursos y especialidades. Tendrás cuatro tablas: una para `students` y su información, una    para cada especialidad `majors`, otra para cada curso `courses` y una última para mostrar qué cursos están incluidos en cada especialidad `majors_courses`.
 
-**Consejos**
-- Utiliza las palabras clave `CREATE TABLE`.
-- Debe haber paréntesis después del nombre de la tabla.
-- He aquí un ejemplo: `CREATE TABLE <table_name>();`
+   Ejemplo:
+  `CREATE TABLE <table_name>();`
 
-**Acción**
+   1. **Acción:**
 
-Escribe  en el indicador psql.
+      Escribe  en el indicador psql.
 
-`CREATE TABLE students();`
-`CREATE TABLE majors();`
-`CREATE TABLE courses();` 
-`CREATE TABLE majors_courses();`
+      `CREATE TABLE students();`
+      
+      `CREATE TABLE majors();`
+      
+      `CREATE TABLE courses();`
+      
+      `CREATE TABLE majors_courses();`
 
 ### Paso 8: VERIFICAR TABLAS
-Utiliza el comando de atajo `\d` para visualizar tus tablas y asegurarte de que estás satisfecho con ellas.
-**Consejos**
-- Es el comando de atajo `\d`.
-- Escribe `\d` en el indicador psql.
+   Utiliza el comando de atajo `\d` para visualizar tus tablas y asegurarte de que estás satisfecho con ellas.
+
+   Escribe `\d` en el indicador psql.
   
 ### Paso 9: CREAR COLUMNAS
 
-Vamos a agregar columnas a la tabla `students` utilizando datos del archivo `students.csv`. Este archivo tiene cuatro campos, y agregaremos una columna para cada uno de esos campos, así como una columna ID.
+   Agregar columnas a la tabla `students` utilizando datos del archivo `students.csv`. Este archivo tiene cuatro campos, y agregaremos una columna para cada uno de esos campos, así       como una columna ID.
 
-**Consejos:**
-- Utiliza la sentencia `ALTER TABLE` para agregar columnas a una tabla existente.
-- Asegúrate de especificar el tipo de datos y cualquier restricción necesaria para cada columna.
+   Utiliza la sentencia `ALTER TABLE` para agregar columnas a una tabla existente.
+   Especifica el tipo de datos y cualquier restricción necesaria para cada columna.
 
-1. **Agregar Columna `student_id`:**
-   Agrega una columna `student_id` a la tabla `students`. Asigna a esta columna el tipo `SERIAL` para que se incremente automáticamente y conviértela en `PRIMARY KEY`.
-   ```psql
-   ALTER TABLE students ADD COLUMN student_id SERIAL PRIMARY KEY;
-   ```
-2. **Agregar Columna `first_name:`:**
-   Agrega una columna `first_name` a la tabla `students`. Asigna a esta columna el tipo `VARCHAR(50)` y dale la restricción `NOT NULL`.
-   ```psql
-   ALTER TABLE students ADD COLUMN first_name VARCHAR(50) NOT NULL;
-   ```
-3. **Agregar Columna `last_name:`:**
-   Agrega una columna `last_name` a la tabla `students`. Asigna a esta columna el mismo tipo de datos y longitud máxima que first_name y asegúrate de que tenga la restricción `NOT   NULL`.
-   ```psql
-   ALTER TABLE students ADD COLUMN last_name VARCHAR(50) NOT NULL;
-   ```
-4. **Agregar Columna `major_id:`:**
-   Agrega una columna `major_id` a la tabla `students`. Asigna a esta columna el tipo de datos `INT`. Estableceremos la clave foránea más adelante.
-   ```psql
-   ALTER TABLE students ADD COLUMN major_id INT;
-   ```
-5. **Agregar Columna `gpa:`:**
-   Agrega una columna `gpa` a la tabla `students`. Los datos en el CSV muestran que son decimales con una longitud de 2 y 1 número a la derecha del decimal, así que asígnale un tipo de datos `NUMERIC(2,1`).
-```psql
-ALTER TABLE students ADD COLUMN gpa NUMERIC(2,1);
-```
+   1. **Agregar Columna `student_id`:**
+      Agrega una columna `student_id` a la tabla `students`. Asigna a esta columna el tipo `SERIAL` para que se incremente automáticamente y conviértela en `PRIMARY KEY`.
+         ```psql
+         ALTER TABLE students ADD COLUMN student_id SERIAL PRIMARY KEY;
+         ```
+   2. **Agregar Columna `first_name:`:**
+      Agrega una columna `first_name` a la tabla `students`. Asigna a esta columna el tipo `VARCHAR(50)` y dale la restricción `NOT NULL`.
+      ```psql
+      ALTER TABLE students ADD COLUMN first_name VARCHAR(50) NOT NULL;
+      ```
+   3. **Agregar Columna `last_name:`:**
+      Agrega una columna `last_name` a la tabla `students`. Asigna a esta columna el mismo tipo de datos y longitud máxima que first_name y asegúrate de que tenga la restricción `NOT         NULL`.
+      ```psql
+      ALTER TABLE students ADD COLUMN last_name VARCHAR(50) NOT NULL;
+      ```
+   4. **Agregar Columna `major_id:`:**
+      Agrega una columna `major_id` a la tabla `students`. Asigna a esta columna el tipo de datos `INT`. Estableceremos la clave foránea más adelante.
+      ```psql
+      ALTER TABLE students ADD COLUMN major_id INT;
+      ```
+   5. **Agregar Columna `gpa:`:**
+      Agrega una columna `gpa` a la tabla `students`. Los datos en el CSV muestran que son decimales con una longitud de 2 y 1 número a la derecha del decimal, así que asígnale un tipo de datos `NUMERIC(2,1`).
+      ```psql
+      ALTER TABLE students ADD COLUMN gpa NUMERIC(2,1);
+      ```
 
 
 ### Paso 10: AÑADIR COLUMNAS A LA TABLA majors
-Completa la tabla `majors`. Añade una columna `major_id` a esta tabla. Configúrala como un tipo `SERIAL` y hazla la PRIMARY KEY para esta tabla.
+   Completa la tabla `majors`. Añade una columna `major_id` a esta tabla. Configúrala como un tipo `SERIAL` y hazla la PRIMARY KEY para esta tabla.
 
-1. **Acción**
-```psql
-ALTER TABLE majors ADD COLUMN major_id SERIAL PRIMARY KEY;
-```
+   1. **Acción:**
+      ```psql
+      ALTER TABLE majors ADD COLUMN major_id SERIAL PRIMARY KEY;
+      ```
 
 Añade una columna a la tabla `majors` llamada `major`. Configúrala como `VARCHAR` con una longitud máxima de 50 y dale la restricción `NOT NULL`.
 
-2. **Acción**
-```psql
-ALTER TABLE majors ADD COLUMN major VARCHAR(50) NOT NULL;
-```
+   2. **Acción:**
+      ```psql
+      ALTER TABLE majors ADD COLUMN major VARCHAR(50) NOT NULL;
+      ```
 
 ### Paso 11: ESTABLECER CLAVE FORÁNEA EN LA TABLA students
-Configurar la columna `major_id` de la tabla `students` como una clave foránea que hace referencia a la columna `major_id` de la tabla `majors`.
+   Configurar la columna `major_id` de la tabla `students` como una clave foránea que hace referencia a la columna `major_id` de la tabla `majors`.
 
-1. **Acción**
+   1. **Acción:**
+      ```psql
+        ALTER TABLE students ADD FOREIGN KEY (major_id) REFERENCES majors (major_id);
+       ```
 
-  ```psql
-  ALTER TABLE students ADD FOREIGN KEY (major_id) REFERENCES majors (major_id);
-```
-
-### Paso 21: CREAR COLUMNA course_id
+### Paso 12: CREAR COLUMNA course_id
 Agregue una columna course_id. Dale un tipo de SERIAL y conviértelo en la clave principal.
 
-**Acción**
+1. **Acción:**
+    ```psql
+     ALTER TABLE coursesADD COLUMN course_id SERIAL PRIMARY KEY;
+     ```
 
- Escribe:
-  ```psql
-  ALTER TABLE coursesADD COLUMN course_id SERIAL PRIMARY KEY;
-  ```
+### Paso 13 Crear clave primaria compuesta
+Puede crear una clave primaria compuesta que utilice más de una columna como un par único.
 
-### Paso 12 Crear clave primaria compuesta
-Puede crear una clave primaria compuesta que utilice más de una columna como un par único como este: `ALTER TABLE <nombre_tabla> ADD PRIMARY KEY(<nombre_columna>, <nombre_columna>);` 
+Ejemplo:
 
-1. **Acción**
+`ALTER TABLE <nombre_tabla> ADD PRIMARY KEY(<nombre_columna>, <nombre_columna>);` 
+
+1. **Acción:**
+    ```psql
+     ALTER TABLE majors_courses ADD PRIMARY KEY(major_id, course_id);
+     ```
+### Paso 14 INSERT EN majors
+
+Sólo necesita el nombre de una especialización. La ID se agregará automáticamente. Agregue la primera especialización del archivo cursos.csv a la tabla de especialidades. Es un VARCHAR, así que asegúrese de poner el valor entre comillas simples. La especialidad es Administración de Bases de Datos.
+
+Utilice las palabras clave `INSERT INTO` y `VALUES`
+
+Ejemplo:
+
+`INSERT INTO <nombre_tabla>(<nombre_columna>) VALUES(<valor>);`
+
+   1. **Acción:**
+      ```psql
+      INSERT INTO majors(principales) VALUES('Administración de bases de datos');
+      ```
+### Paso 15 SELECT - FROM 
+
+Utilice las palabras clave SELECT y FROM con * para ver todas las columnas y asegurarse de que se hayan insertado correctamente.
+
+   Ejemplo: 
+
+   `SELECT <columnas> FROM <nombre_tabla>;`
+
+   1. **Acción:**
+      ```psql
+      SELECT * FROM majors;
+      ```
+      ```psql
+      SELECT * FROM courses;
+      ```
+      ```psql
+      SELECT * FROM majors_courses;
+      ```
+      ```psql
+      SELECT * FROM students;
+      ```
+### Paso 16 touch insert_data.sh
+
+Añadir el resto de la información de a uno por vez sería tedioso. Vas a crear un script que lo haga por ti. Te recomiendo "dividir" la terminal para esta parte. Utiliza el comando `touch` para crear un archivo llamado `insert_data.sh` en la carpeta de tu proyecto.
+
+   1. **Acción:**
    
+   Escribe `touch insert_data.sh` en la nueva terminal y presiona enter.
+   Asegúrate de que estás en la carpeta del proyecto primero.
+   Puedes llegar allí ingresando cd ~/project en la terminal.
 
-Escribe:
-  ```psql
-  ALTER TABLE majors_courses ADD PRIMARY KEY(major_id, course_id);
-  ```
+### Paso 17 chmod +x insert_data.sh
+
+En la terminal de comandos, usa el comando `chmod` con el indicador `+x` para darte nuevos permisos de ejecución de scripts.
+
+Ejemplo: `chmod +x <filename>`
+
+   1. **Acción:**
+
+   Escribe `chmod +x insert_data.sh` en la terminal y presiona enter.
+   
+### Paso 18 Agrega shebang 
+
+Abre tu nuevo archivo y agrega un "shebang" que use bash en la parte superior. 
+
+   1. **Acción:**
+   
+      Añade el texto: `#!/bin/bash.`
+   
+### Paso 19 Agrega un comentario 
+Agrega un comentario de una sola línea con el texto `Script para insertar datos de courses.csv y students.csv en la base de datos students`.
+
+   1. **Acción:**
+
+      Agrega `# Script para insertar datos de courses.csv y students.csv en la base de datos students` debajo del "shebang" en tu archivo `insert_data.sh`
+
+### Paso 20 Agrega cat courses.csv
+`cat` es un comando de terminal para imprimir el contenido de un archivo. Debes agregar toda la información del archivo courses.csv ya que necesitas el major_id para insertar la información del estudiante.
+
+Ejemplo: `cat <filename>`. 
+   
+   1. **Acción:**
+      
+      Agregue `cat courses.csv` a su archivo insert_data.sh debajo de su comentario.
+
+### Paso 21 ./insert_data.sh
+Ejecute su script para ver si se imprime el contenido del archivo.
+
+   1. **Acción:**
+      
+      Escriba `./insert_data.sh` en la terminal y presione enter. Asegúrese de estar en la carpeta del proyecto primero.
+
+### Paso 22 Agregue while read
+En lugar de imprimir el contenido, puede redirigir esa salida en un bucle while para poder recorrer las filas una a la vez. 
+Cada nueva línea se leerá en las variables `MAJOR` y `COURSE`, use `echo` para imprimir la variable `MAJOR`.
+
+   1. **Acción:**
+    
+      El bucle completo debería verse así:
+
+      ```sh 
+      cat courses.csv | while read MAJOR COURSE
+      do
+        echo $MAJOR
+      done
+      ```
+      
+### Paso 23 Declarar -p IFS y Añadir IFS
+La variable `MAJOR` solo está capturando la primera palabra de cada línea. Esto se debe a la variable predeterminada `IFS` en bash. `IFS` significa "Internal Field Separator" (Separador de Campos Interno) y define cómo se separan los campos en bash. Para ver el valor actual de IFS, puedes usar el siguiente comando en la terminal:
+
+   1. **Acción**:
+    
+   Ingresa `declare -p IFS` en la terminal.
+    
+   Entre los comandos `while`y `read`, establezca el IFSen una coma de la siguiente manera:`IFS=","`
+
+   2. **Acción**:
+   
+   ```sh
+   cat courses.csv | while IFS="," read MAJOR COURSE
+   do
+     echo $MAJOR
+   done
+   ```
 
 
 
@@ -188,179 +303,3 @@ eficiente y segura de tu entorno.
 Haz clic [aquí para iniciar el segundo tutorial](https://gitpod.io/new/?autostart=true#CODEROAD_TUTORIAL_URL=https%3A%2F%2Fraw.githubusercontent.com%2FLaboratoria%2Flearn-sql-by-building-a-student-database-part-2%2Fmain%2Ftutorial.json,CODEROAD_DISABLE_RUN_ON_SAVE=true/https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
 
 
-## 5. Entregable
-
-Haz fork a este repositorio. Luego ajustar el README para registrar
-todos los comandos ejecutados durante los tutoriales. Puede usar
-el siguiente formato:
-
-```md
-# Tutorial 1
-
-## Paso 1
-
-   `echo sql Hello`
-
-## Paso 2
-
-   `psql --username=freecodecamp --dbname=psql`
-```
-
-Puedes obtener un historial de los comandos ejecutados en una terminal
-con el comando `history`.
-
-## 6. Consideraciones para pedir tu Project Feedback
-
-Antes de agendar tu Project Feedback con tu coach, asegúrate de:
-
-* [ ] Completar los 2 tutoriales propuestos
-* [ ] Tener un fork con un entorno de Gitpod completo
-
-## 7. Objetivos de aprendizaje
-
-
-Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en tu proyecto. Piensa en eso al decidir tu estrategia de trabajo.
-
-### SQL
-
-- [ ] **Realizar operaciones básicas de consulta de una base de datos utilizando las cláusulas SELECT y WHERE**
-
-  <details><summary>Links</summary><p>
-
-  * [Querying a Table](https://www.postgresql.org/docs/current/tutorial-select.html)
-  * [SELECT reference](https://www.postgresql.org/docs/16/sql-select.html)
-</p></details>
-
-- [ ] **CREATE TABLE**
-
-  <details><summary>Links</summary><p>
-
-  * [SQL CREATE TABLE Statement - W3Schools](https://www.w3schools.com/sql/sql_create_table.asp)
-</p></details>
-
-- [ ] **INSERT**
-
-  <details><summary>Links</summary><p>
-
-  * [Inserting Data](https://www.postgresql.org/docs/current/dml-insert.html)
-</p></details>
-
-- [ ] **UPDATE**
-
-  <details><summary>Links</summary><p>
-
-  * [Updating Data](https://www.postgresql.org/docs/current/dml-update.html)
-</p></details>
-
-- [ ] **DELETE**
-
-  <details><summary>Links</summary><p>
-
-  * [DELETE](https://www.postgresql.org/docs/current/dml-delete.html)
-</p></details>
-
-- [ ] **Primary Key**
-
-  <details><summary>Links</summary><p>
-
-  * [Primary Keys](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS)
-</p></details>
-
-- [ ] **Foreign key**
-
-  <details><summary>Links</summary><p>
-
-  * [Foreign Keys](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK)
-</p></details>
-
-- [ ] **ALTER TABLE**
-
-  <details><summary>Links</summary><p>
-
-  * [Modifying Tables](https://www.postgresql.org/docs/current/ddl-alter.html)
-</p></details>
-
-- [ ] **Comprender y utilizar cláusulas JOIN para combinar datos de múltiples tablas.**
-
-  <details><summary>Links</summary><p>
-
-  * [Joins Between Tables](https://www.postgresql.org/docs/current/tutorial-join.html)
-</p></details>
-
-- [ ] **Condensar resultados con cláusulas de agrupación de datos como GROUP BY y HAVING**
-
-  <details><summary>Links</summary><p>
-
-  * [SELECT reference](https://www.postgresql.org/docs/16/sql-select.html)
-  * [Aggregate Functions](https://www.postgresql.org/docs/current/tutorial-agg.html)
-</p></details>
-
-- [ ] **Ordernar el resultado utilizando la cláusula ORDER BY**
-
-  <details><summary>Links</summary><p>
-
-  * [SELECT reference](https://www.postgresql.org/docs/16/sql-select.html)
-</p></details>
-
-- [ ] **Trabajar con funciones de agregación como COUNT, SUM, AVG, MAX y MIN**
-
-  <details><summary>Links</summary><p>
-
-  * [Aggregate Functions](https://www.postgresql.org/docs/current/tutorial-agg.html)
-</p></details>
-
-- [ ] **Constraints**
-
-  <details><summary>Links</summary><p>
-
-  * [Constraints](https://www.postgresql.org/docs/current/ddl-constraints.html)
-</p></details>
-
-### Virtual Machines
-
-- [ ] **Virtual Machines Setup**
-
-  <details><summary>Links</summary><p>
-
-  * [Creating a Virtual Machine - Oracle VM](https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/vboxmanage-createvm.html)
-  * [Setting Up a Virtual Machine - Microsoft](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/quick-create-virtual-machine)
-</p></details>
-
-### PostgreSQL
-
-- [ ] **PostgreSQL Setup**
-
-  <details><summary>Links</summary><p>
-
-  * [PostgreSQL Installation - PostgreSQL Docs](https://www.postgresql.org/download/)
-  * [How To Install and Use PostgreSQL on Ubuntu - DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04)
-</p></details>
-
-- [ ] **PostgreSQL Commands**
-
-  <details><summary>Links</summary><p>
-
-  * [PostgreSQL psql Commands - PostgreSQL Docs](https://www.postgresql.org/docs/current/app-psql.html)
-  * [Commonly Used PostgreSQL Commands - Verta.ai](https://www.verta.ai/resources/tutorials/database/postgresql-commands)
-</p></details>
-
-- [ ] **PostgreSQL Backup**
-
-- [ ] **PostgreSQL Restore**
-
-### Shell
-
-- [ ] **Shell Scripts**
-
-  <details><summary>Links</summary><p>
-
-  * [Shell Scripting Guide - LinuxCommand.org](http://linuxcommand.org/lc3_writing_shell_scripts.php)
-</p></details>
-
-- [ ] **File Permissions**
-
-  <details><summary>Links</summary><p>
-
-  * [Understanding Linux File Permissions - DigitalOcean](https://www.digitalocean.com/community/tutorials/understanding-linux-file-permissions)
-  * [File Permissions in Linux - Red Hat](https://www.redhat.com/sysadmin/linux-file-permissions)
-</p></details>
