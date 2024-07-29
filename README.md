@@ -3,11 +3,11 @@
 
 ### [Learn SQL by Building a Student Database: Part 1](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-1)
 
-En el primer tutorial, aprenderás a construir y gestionar una base de datos de
-estudiantes utilizando SQL y PostgreSQL. Comenzarás configurando el entorno
-necesario, que incluye la instalación de PostgreSQL y el uso de máquinas
-virtuales. A través de comandos SQL, te guiarás en la creación de tablas con
-claves primarias y foráneas, la inserción y consulta de datos, y la
+En el primer tutorial, aprendimos a construir y gestionar una base de datos de
+estudiantes utilizando SQL y PostgreSQL. configurando el entorno
+necesario, que incluia la instalación de PostgreSQL y el uso de máquinas
+virtuales. A través de comandos SQL, se crearon tablas con
+claves primarias y foráneas,  inserción y consulta de datos, y la
 actualización y eliminación de registros. Además, explorarás el uso de
 scripts Bash para automatizar tareas y gestionar permisos de archivos.
 
@@ -847,20 +847,102 @@ Ya no necesitas tus archivos de prueba. En la terminal, usa el comando `list` pa
       Vuelva a enumerar el contenido de la carpeta para asegurarse de que no haya más contenido. Introduzca `ls` en la terminal.
 
       
-### Paso 49 pg_dump --help, dump database
+### Paso 50 pg_dump --help, dump database
 
-La base de datos está terminada por ahora. Lo último que vas a hacer es crear un "volcado" de la base de datos. El comando `pg_dump` puede hacerlo por ti. Usa el indicador `--help` con el comando para ver lo que puede hacer.
+La base de datos está terminada por ahora. Lo último que vas a hacer es crear un "dump" de la base de datos. El comando `pg_dump` puede hacerlo por ti. Usa el indicador `--help` con el comando para ver lo que puede hacer.
 
+   1. **Acción**:
 
-Ingresa `pg_dump --help` en la terminal bash
+      Ingresa `pg_dump --help` en la terminal bash
 
-Presiona enter hasta que hayas visto todo el manual
+      Presiona enter hasta que hayas visto todo el manual
 
+   2. **Acción**:
+      
+      Este es el último paso.
 
-Este es el último paso.
-Ingresa `pg_dump --clean --create --inserts --username=freecodecamp students > students.sql` en la terminal para volcar la base de datos en un archivo `students.sql`. Guardará todos los comandos necesarios para reconstruirla. Echa un vistazo rápido al archivo cuando hayas terminado.
+      Ingresa `pg_dump --clean --create --inserts --username=freecodecamp students > students.sql` en la terminal para volcar la base de datos en un archivo `students.sql`. Guardará todos los comandos necesarios para reconstruirla. Echa un vistazo rápido al archivo cuando hayas terminado.
 
+## ARCHIVO insert_data.sh
 
+```sh
+#!/bin/bash
+
+# Script to insert data from courses.csv and students.csv into students database
+
+PSQL="psql -X --username=freecodecamp --dbname=students --no-align --tuples-only -c"
+echo $($PSQL "TRUNCATE students, majors, courses, majors_courses")
+
+cat courses.csv | while IFS="," read MAJOR COURSE
+do
+  if [[ $MAJOR != "major" ]]
+  then
+    # get major_id
+    MAJOR_ID=$($PSQL "SELECT major_id FROM majors WHERE major='$MAJOR'")
+
+    # if not found
+    if [[ -z $MAJOR_ID ]]
+    then
+      # insert major
+      INSERT_MAJOR_RESULT=$($PSQL "INSERT INTO majors(major) VALUES('$MAJOR')")
+      if [[ $INSERT_MAJOR_RESULT == "INSERT 0 1" ]]
+      then
+        echo Inserted into majors, $MAJOR
+      fi
+
+      # get new major_id
+      MAJOR_ID=$($PSQL "SELECT major_id FROM majors WHERE major='$MAJOR'")
+    fi
+
+    # get course_id
+    COURSE_ID=$($PSQL "SELECT course_id FROM courses WHERE course='$COURSE'")
+
+    # if not found
+    if [[ -z $COURSE_ID ]]
+    then
+      # insert course
+      INSERT_COURSE_RESULT=$($PSQL "INSERT INTO courses(course) VALUES('$COURSE')")
+      if [[ $INSERT_COURSE_RESULT == "INSERT 0 1" ]]
+      then
+        echo Inserted into courses, $COURSE
+      fi
+
+      # get new course_id
+      COURSE_ID=$($PSQL "SELECT course_id FROM courses WHERE course='$COURSE'")
+    fi
+
+    # insert into majors_courses
+    INSERT_MAJORS_COURSES_RESULT=$($PSQL "INSERT INTO majors_courses(major_id, course_id) VALUES($MAJOR_ID, $COURSE_ID)")
+    if [[ $INSERT_MAJORS_COURSES_RESULT == "INSERT 0 1" ]]
+    then
+      echo Inserted into majors_courses, $MAJOR : $COURSE
+    fi
+  fi
+done
+
+cat students.csv | while IFS="," read FIRST LAST MAJOR GPA
+do
+  if [[ $FIRST != "first_name" ]]
+  then
+    # get major_id
+    MAJOR_ID=$($PSQL "SELECT major_id FROM majors WHERE major='$MAJOR'") 
+
+    # if not found
+    if [[ -z $MAJOR_ID ]]
+    then
+      # set to null
+      MAJOR_ID=null
+    fi
+
+    # insert student
+    INSERT_STUDENT_RESULT=$($PSQL "INSERT INTO students(first_name, last_name, major_id, gpa) VALUES('$FIRST', '$LAST', $MAJOR_ID, $GPA)")
+    if [[ $INSERT_STUDENT_RESULT == "INSERT 0 1" ]]
+    then
+      echo Inserted into students, $FIRST $LAST
+    fi
+  fi
+done
+```
 
 
 ### [Learn SQL by Building a Student Database: Part 2](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
