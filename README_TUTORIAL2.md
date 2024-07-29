@@ -178,3 +178,17 @@ Use el indicador `-e` para colocar una nueva línea al comienzo de la oración.
      También hay operadores de igual (`=`) y no igual (`!=`). Vea las mismas columnas para los estudiantes que no tienen un GPA de 4.0.
 
      Ingrese `SELECT first_name, last_name, gpa FROM students WHERE gpa != 4.0;` en el indicador de psql
+
+### Paso 13 Agregar resultado de consulta de eco
+
+En su archivo `student_info.sh`, agregue un comando `echo` al final que imprima lo que solicita la oración anterior. Coloque comillas dobles alrededor de él de esta manera: `echo "$($PSQL "<query_here>")"`. Esto hará que el resultado no esté todo en una sola línea.
+
+  1. **Acción**:
+
+     Agregue  al final del archivo student_info.sh
+     
+     ```sh
+     echo "$($PSQL "SELECT first_name, last_name, gpa FROM students WHERE gpa = 4.0")"
+     ```
+
+### Paso 14 Agregar resultado de consulta de eco
