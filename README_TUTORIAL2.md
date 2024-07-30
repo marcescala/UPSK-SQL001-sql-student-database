@@ -248,7 +248,7 @@ Practique primero. En el indicador `psql`.
 
      Si quieres ver resultados que comiencen con `G` o después, puedes usar major `>= 'G'`. Mira las carreras que vienen antes de `G`.
 
-    Ingresa `SELECT * FROM majors WHERE major < 'G';` 
+     Ingresa `SELECT * FROM majors WHERE major < 'G';` 
 
 
 ### Paso 16: Agregar resultado de consulta con echo
@@ -258,15 +258,16 @@ En su secuencia de comandos, agregue un `echo` en la parte inferior para imprimi
   1. **Acción**:
 
      Agregue al final del archivo `student_info.sh`
-     
+
      ```sh
      echo "$($PSQL "SELECT course FROM courses WHERE course < 'D'")"
      ```
-     2. **Acción**:
 
-    Ejecute la secuencia de comandos para ver qué nombres de cursos vienen antes de la letra `D`.
-    
-    Escriba `./student_info.sh` en la terminal y presione enter
+  2. **Acción**:
+
+     Ejecute la secuencia de comandos para ver qué nombres de cursos vienen antes de la letra `D`.
+
+     Escriba `./student_info.sh` en la terminal y presione enter
 
 ### Paso 17: Agregue echo 
 
@@ -277,8 +278,8 @@ Agrega otra oración como las otras que dice: `First name, last name, and GPA of
      En la parte inferior del archivo `student_info.sh`, agrega lo siguiente:
 
      ```sh
-    echo -e "\nFirst name, last name, and GPA of students whose last name begins with an 'R' or after and have a GPA greater than 3.8 or less than 2.0:"
-    ```
+     echo -e "\nFirst name, last name, and GPA of students whose last name begins with an 'R' or after and have a GPA greater than 3.8 or less than 2.0:"
+     ```
 
 ### Paso 18: psql consultas
 
@@ -297,21 +298,22 @@ Agrega otra oración como las otras que dice: `First name, last name, and GPA of
   3. **Acción**:
 
      Puedes usar múltiples condiciones después de `WHERE` con `AND` u `OR`, entre otras. Solo agrega la palabra clave y otra condición. En el indicador de `psql`, usa el mismo comando que antes, pero agrega un `OR` para devolver también las filas de estudiantes con un `GPA` de 3.9.
+     
      Ingresa `SELECT * FROM students WHERE last_name < 'M' OR gpa = 3.9;`
 
-  4. **Acción**:
+  5. **Acción**:
 
      Ingresa el comando anterior, pero usa `AND` para ver solo los estudiantes que cumplen con ambas condiciones.
 
      Ingrese `SELECT * FROM students WHERE last_name < 'M' AND gpa = 3.9;`
 
-  5. **Acción**:
+  6. **Acción**:
 
      Ingrese el comando anterior, pero agregue una tercera condición de `OR gpa < 2.3`.
 
      Ingresa `SELECT * FROM students WHERE last_name < 'M' AND gpa = 3.9 OR gpa < 2.3;`.
 
-  6. **Acción**:
+  7. **Acción**:
     
      Puede agrupar las condiciones con paréntesis de esta manera: `WHERE <condition_1> AND (<condition_2> OR <condition_2>)`. Esto solo devolvería filas donde `<condition_1>` sea verdadera y una de las otras sea verdadera. Vea los estudiantes cuyo apellido esté antes de `M` que tengan un `GPA` de 3.9 o menor que 2.3.
 
@@ -322,12 +324,12 @@ Agrega otra oración como las otras que dice: `First name, last name, and GPA of
 De regreso en el archivo de información del estudiante, agrega un comando `echo` en la parte inferior para imprimir las filas sugeridas.
 
   1. **Acción**:
-     
-    Agrega 
-    
-    ```sh
-    echo "$($PSQL "SELECT first_name, last_name, gpa FROM students WHERE last_name >= 'R' AND (gpa > 3.8 OR gpa < 2.0)")" al final del archivo student_info.sh
-    ```
+
+     Agrega
+
+     ```sh
+     echo "$($PSQL "SELECT first_name, last_name, gpa FROM students WHERE last_name >= 'R' AND (gpa > 3.8 OR gpa < 2.0)")" al final del archivo student_info.sh
+     ```
 
    2. **Acción**:
 
@@ -345,7 +347,7 @@ Agregue otro comando `echo`, como los demás, con una oración que diga: `Last n
      En la parte inferior del archivo `student_info.sh`, agregue lo siguiente:
 
      ```sh
-     echo -e "\nApellido de los estudiantes cuyo apellido contiene una 'sa' que no distingue entre mayúsculas y minúsculas o tiene una 'r' como la segunda letra de la última:"
+     echo -e "\nLast name of students whose last name contains a case insensitive 'sa' or have an 'r' as the second to last letter:"
      ```
      
 ### Paso 21: psql consultas
@@ -416,23 +418,18 @@ Agregue otro comando `echo`, como los demás, con una oración que diga: `Last n
 
       Ingresa `SELECT * FROM courses WHERE course NOT ILIKE '%A%' AND course LIKE '% %';`
 
-      
-1690. Agrega el resultado de la consulta echo
-1690.1
-En el script de información del estudiante, agrega una declaración echo en la parte inferior como la otra para imprimir los resultados de la consulta sugerida.
+### Paso 22: Agrega echo
 
-SUGERENCIAS
-Agregue echo "$($PSQL "<query_here>")" al final del archivo student_info.sh, excepto que contenga la consulta correcta
-Anteriormente utilizó SELECT * FROM courses WHERE course NOT ILIKE '%A%' AND course LIKE '% %'; en el indicador de psql
-Practique la consulta en el indicador de psql para asegurarse de que obtiene lo que desea
-Las condiciones deben ser last_name ILIKE '%sa%' OR last_name LIKE %r_
-Si ejecuta su secuencia de comandos, la última declaración echo debe imprimir:
-Gilbert
-Savage
-Saunders
-Hilpert
-Hassanah
-Agregue echo "$($PSQL "SELECT last_name FROM students WHERE last_name ILIKE '%sa%' OR last_name LIKE '%r_'")" al final del archivo student_info.sh
+En el script de información del estudiante, agrega una declaración `echo` en la parte inferior como la otra para imprimir los resultados de la consulta sugerida.
+
+  1. **Acción**:
+
+     Agregue al final del archivo `student_info.sh`
+     
+     ```sh
+     echo "$($PSQL "SELECT last_name FROM students WHERE last_name ILIKE '%sa%' OR last_name LIKE '%r_'")"
+     ```
+
 1700. ./student_info.sh
 1700.1
 Ejecute la secuencia de comandos para ver los resultados.
