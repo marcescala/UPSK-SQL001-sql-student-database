@@ -418,7 +418,7 @@ Agregue otro comando `echo`, como los demás, con una oración que diga: `Last n
 
       Ingresa `SELECT * FROM courses WHERE course NOT ILIKE '%A%' AND course LIKE '% %';`
 
-### Paso 22: Agrega echo
+### Paso 22: Agregar resultado de consulta con echo
 
 En el script de información del estudiante, agrega una declaración `echo` en la parte inferior como la otra para imprimir los resultados de la consulta sugerida.
 
@@ -430,29 +430,331 @@ En el script de información del estudiante, agrega una declaración `echo` en l
      echo "$($PSQL "SELECT last_name FROM students WHERE last_name ILIKE '%sa%' OR last_name LIKE '%r_'")"
      ```
 
-1700. ./student_info.sh
-1700.1
-Ejecute la secuencia de comandos para ver los resultados.
+  2. **Acción**:
+
+      Ejecute  el script para ver los resultados.
+
+      Escriba `./student_info.sh` en la terminal y presione enter
+
+### Paso 23: Agregue echo
+
+Agregue otro comando `echo` en la parte inferior, como los demás. Haga que este diga: `First name, last name, and GPA of students who have not selected a major and either their first name begins with 'D' or they have a GPA greater than 3.0:`
+
+  1. **Acción**:
+
+     En la parte inferior del archivo student_info.sh, agregue lo siguiente:
+
+     ```sh
+     echo -e "\nFirst name, last name, and GPA of students who have not selected a major and either their first name begins with 'D' or they have a GPA greater than 3.0:"
+     ```
+### Paso 24: psql consultas
+
+  1. **Acción**:
+
+     Comience por ver todos los datos de la tabla students.
+
+     Ingrese `SELECT * FROM students;`
+
+  2. **Acción**:
+
+     Todos los campos que están vacíos o en blanco son nulos. Puede acceder a ellos usando `IS NULL` como condición de esta manera: `WHERE <column> IS NULL`. Vea los estudiantes que no tienen un GPA.
+
+     Ingrese `SELECT * FROM students WHERE gpa IS NULL;`
+
+  3. **Acción**:
+
+     A la inversa, puede usar `IS NOT NULL` para ver filas que no son nulas. Vea toda la información sobre los estudiantes que sí tienen un `GPA`.
+     
+     Ingrese `SELECT * FROM students WHERE gpa IS NOT NULL;`
+
+  4. **Acción**:
+
+     Ver toda la información sobre los estudiantes que no han elegido una especialidad.
+
+     Ingresa `SELECT * FROM students WHERE major_id IS NULL;`
+
+  5. **Acción**:
+
+     Vea los estudiantes que no tienen una especialidad, pero no incluya a los estudiantes sin un GPA.
+
+     Ingrese `SELECT * FROM students WHERE major_id IS NULL AND gpa IS NOT NULL;`
+
+  6. **Acción**:
+
+     Mira los estudiantes que no tienen una especialidad y un promedio de calificaciones.
+
+     Ingresa `SELECT * FROM students WHERE major_id IS NULL AND gpa IS NULL;`
+
+### Paso 25: Agrega el resultado de la consulta echo
+
+En tu script, agrega un comando echo en la parte inferior para imprimir los resultados que busca la oración.
+
+  1. **Acción**:
+
+     Agregue al final del archivo `student_info.sh`
+     
+     ```sh
+     echo "$($PSQL "SELECT first_name, last_name, gpa FROM students WHERE major_id IS NULL AND (first_name LIKE 'D%' OR gpa > 3.0)")"
+     ```
+     
+  2. **Acción**:
+
+      Ejecute  el script para ver los resultados.
+
+      Escriba `./student_info.sh` en la terminal y presione enter
+     
+### Paso 26: Agregue echo
+
+Agregue otra oración, como las otras, que diga `Course name of the first five courses, in reverse alphabetical order, that have an 'e' as the second letter or end with an 's':`
+
+   1. **Acción**:
+     
+      En la parte inferior del archivo student_info.sh, agregue lo siguiente:
+      ```sh
+      echo -e "\nCourse name of the first five courses, in reverse alphabetical order, that have an 'e' as the second letter or end with an 's':"
+      ```
+### Paso 27: psql consultas
+
+  1. **Acción**:
+
+     Puede especificar el orden en el que desea que aparezcan los resultados agregando `ORDER BY <column_name>` al final de una consulta. En el indicador `psql`, visualice toda la información en la tabla de estudiantes ordenada por `GPA`.
+
+     Ingrese `SELECT * FROM students ORDER BY gpa; `   
+
+  2. **Acción**:
+
+     Al usar `ORDER BY`, estará en orden ascendente (`ASC`) de manera predeterminada. Agregue `DESC` (descendente) al final de la última consulta para colocar los más altos en la parte superior.
+
+     Ingresa `SELECT * FROM students ORDER BY gpa DESC;`
+     
+  3. **Acción**:
+
+     Puedes agregar más columnas al orden separándolas con una coma de esta manera: `ORDER BY <column_1>, <column_2>`. Los valores coincidentes en la primera columna ordenada se ordenarán por la siguiente. Mira toda la información de los estudiantes con los promedios de calificaciones más altos en la parte superior y en orden alfabético por `first_name` si los promedios de calificaciones coinciden.
+
+     Ingrese `SELECT * FROM students ORDER BY gpa DESC, first_name;`
+     
+  4. **Acción**:
+
+     Puede agregar `LIMIT <number>` al final de la consulta para obtener solo la cantidad que desea. Vea los estudiantes en el mismo orden que el último comando, pero solo devuelva las primeras 10 filas.
+
+     Ingrese `SELECT * FROM students ORDER BY gpa DESC, first_name LIMIT 10;`
+
+  5. **Acción**:
+
+     El orden de las palabras clave en su consulta es importante. No puede colocar `LIMIT` antes de `ORDER BY`, ni ninguna de ellas antes de `WHERE`. Vea la misma cantidad de estudiantes, en el mismo orden, pero no obtenga los que no tienen un `GPA`.
+
+     Ingrese `SELECT * FROM students WHERE gpa IS NOT NULL ORDER BY gpa DESC, first_name LIMIT 10;`
+
+### Paso 28: Agregue el resultado de la consulta echo
+
+En su secuencia de comandos, agregue el comando echo para imprimir las filas que solicita la oración.
+
+  1. **Acción**:
+
+     Agregue al final del archivo `student_info.sh`
+     
+     ```sh
+     echo "$($PSQL "SELECT course FROM courses WHERE course LIKE '_e%' OR course LIKE '%s' ORDER BY course DESC LIMIT 5")"
+     ```
+     
+  2. **Acción**:
+
+      Ejecute  el script para ver los resultados.
+
+      Escriba `./student_info.sh` en la terminal y presione enter.
+
+### Paso 29: Agrega echo
+
+😎 Agrega otro comando `echo` al final del script como los demás. Haz que este diga, `Average GPA of all students rounded to two decimal places:`
+
+  1. **Acción**:
+
+     En la parte inferior del archivo student_info.sh, agrega esto:
+
+     ```sh
+     echo -e "\nAverage GPA of all students rounded to two decimal places:"
+     ```
+     
+### Paso 30: consultas psql
+
+  1. **Acción**:
+
+     Existen varias funciones matemáticas para usar con columnas numéricas. Una de ellas es `MIN`, puedes usarla al seleccionar una columna de esta manera: `SELECT MIN(<column>) FROM <table>`. Encontrará el valor más bajo en la columna. En el indicador `psql`, visualice el valor más bajo en la columna `gpa` de la tabla `students`.
+
+     Ingrese `SELECT MIN(gpa) FROM students;` 
+     
+  2. **Acción**:
+
+     Otro es `MAX`, úselo para ver el `GPA` más alto de la misma tabla.
+
+     Ingrese `SELECT MAX(gpa) FROM students;`
+     
+  3. **Acción**:
+
+     Usa una función `SUM` para averiguar cuánto suman todos los valores de la columna `major_id` en la tabla `students`.
+
+     Ingresa `SELECT SUM(major_id) FROM students;`
+     
+  4. **Acción**:
+
+     `AVG` te dará el promedio de todos los valores en una columna. Úsalo para ver el promedio de la misma columna.
+
+     Ingrese `SELECT AVG(major_id) FROM students;`
+     
+  5. **Acción**:
+
+     Puede redondear decimales hacia arriba o hacia abajo al número entero más cercano con `CEIL` y `FLOOR`, respectivamente. Use `CEIL` para redondear el promedio de `major_id` hacia arriba al número entero más cercano. Aquí hay un ejemplo: `CEIL(<number_to_round>)`.
+
+     Ingresa `SELECT CEIL(AVG(major_id)) FROM students;`
+     
+  6. **Acción**:
+
+     Puedes redondear un número al número entero más cercano con `ROUND`. Úsalo para redondear el promedio de la columna `major_id` al número entero más cercano.
+
+     Ingresa `SELECT ROUND(AVG(major_id)) FROM students;` 
+
+  7. **Acción**:
+
+     Puedes redondear a una cantidad específica de decimales agregando una coma y un número a `ROUND`, de esta manera: `ROUND(<number_to_round>, <decimals_places>)`. Redondea el promedio de `major_id` a cinco decimales.
+
+     Ingresa `SELECT ROUND(AVG(major_id), 5) FROM students;`
+
+### Paso 31: Agrega el resultado de la consulta echo
+
+Ahora deberías poder encontrar lo que tu script está pidiendo. Agrega el comando para imprimirlo.
+
+  1. **Acción**:
+
+     Agregue al final del archivo `student_info.sh`
+     
+     ```sh
+     echo "$($PSQL "SELECT ROUND(AVG(gpa), 2) FROM students")"
+     ```
+
+     2. **Acción**:
+
+      Ejecute  el script para ver los resultados.
+
+      Escriba `./student_info.sh` en la terminal y presione enter.
+
+### Paso 32: Agrega echo
+
+Lo están haciendo bastante bien. Agregue otro comando para `Major ID, total number of students in a column named 'number_of_students', and average GPA rounded to two decimal places in a column name 'average_gpa', for each major ID in the students table having a student count greater than 1:`
+
+  1. **Acción**:
+
+     En la parte inferior del archivo student_info.sh, agrega esto:
+
+     ```sh
+     echo -e "\nMajor ID, total number of students in a column named 'number_of_students', and average GPA rounded to two decimal places in a column name 'average_gpa', for each major ID in the students table having a student count greater than 1:"
+     ```
+     
+### Paso 33: Consultas psql
+
+  1. **Acción**:
+
+     Otra función es `COUNT`. Puedes usarlo de esta manera: `COUNT(<column>)`. Te dirá cuántas entradas hay en una tabla para la columna. Pruébalo en el indicador `psql` usando `COUNT(*)` para ver cuántas especialidades hay.
+
+     Ingresa SELECT COUNT(*) FROM especialidades; en el indicador psql
+
+  2. **Acción**:. Usando el mismo método, verifica cuántos estudiantes tienes.
+
+     Introduzca SELECT `COUNT(*) FROM students;`
+     
+  3. **Acción**:
+
+     Al utilizar  `*` de esa manera, podrá saber cuántas filas totales hay en la tabla. Vea el recuento de la columna `major_id` en la tabla `students` para ver cuántos de sus estudiantes han elegido una especialidad.
+
+     Introduzca `SELECT COUNT(major_id) FROM students;`
+
+  4. **Acción**:.
+
+     El uso de `major_id` no contó los valores nulos en esa columna. 23 estudiantes tienen una especialidad. `DISTINCT` es una función que te mostrará solo valores únicos. Puedes usarla de esta manera: `DISTINCT(<column>)`. Observa los valores únicos de major_id en la tabla students.
+
+     Ingresa `SELECT DISTINCT(major_id) FROM students;`
+     
+  
+  5. **Acción**:
+
+     Puede obtener los mismos resultados con `GROUP BY`. Aquí hay un ejemplo de cómo usarlo: `SELECT <column> FROM <table> GROUP BY <column>`. Use este método para ver nuevamente los valores `major_id` únicos en la tabla `students`.
+     
+     Ingrese `SELECT major_id FROM students GROUP BY major_id;`
+     
+  6. **Acción**:
+    
+     El resultado fue el mismo que `DISTINCT`, pero con `GROUP BY` puedes agregarle cualquiera de las funciones agregadas (`MIN, MAX, COUNT, etc.`) para encontrar más información. Por ejemplo, si quisieras ver cuántos estudiantes había en cada especialidad, podrías usar `SELECT COUNT(*) FROM students GROUP BY major_id`. Observa la columna `major_id` y la cantidad de estudiantes en cada `major_id`.
+
+     Ingrese `SELECT major_id, COUNT(*) FROM students GROUP BY major_id;`
+     
+  7. **Acción**:
+
+     Al usar `GROUP BY`, todas las columnas del área `SELECT` deben incluirse en el área `GROUP BY`. Las demás columnas deben usarse con cualquiera de las funciones de agregación (`MAX, AVG, COUNT, etc.`).
+
+     Vuelve a ver los valores únicos de major_id con GROUP BY, pero observa cuál es el GPA más bajo en cada uno de ellos.
 
 SUGERENCIAS
-Ejecute el script student_info.sh
-Escriba ./student_info.sh en la terminal y presione enter
-Asegúrese de estar en la carpeta del proyecto primero
-1710. Agregue echo students without major begin with D or gpa > 3.0
-1710.1
-Parece que cinco estudiantes cumplen con esas condiciones. Agregue otro comando echo en la parte inferior, como los demás. Haga que este diga: Nombre, apellido y GPA de los estudiantes que no han seleccionado una especialidad y su nombre comienza con 'D' o tienen un GPA mayor que 3.0:
+La última consulta fue SELECT major_id, COUNT(*) FROM students GROUP BY major_id;
+Usa las palabras clave SELECT, MIN, FROM y GROUP BY
+A continuación, se incluye un ejemplo: SELECT <column_1>, MIN(<column_2>) FROM <table> GROUP BY <column_1>;
+Ingresa SELECT major_id, MIN(gpa) FROM students GROUP BY major_id; en el indicador de psql
+Ingresa psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo has hecho
+2040. psql SELECT MIN(gpa), MAX(gpa) FROM students GROUP BY major_id
+2040.1
+Buen trabajo. Ingresa la misma consulta, pero agrega una columna que también te muestre el GPA más alto en cada especialidad.
 
 SUGERENCIAS
-En la parte inferior del archivo, use echo con el indicador -e y un carácter de nueva línea nuevamente para imprimir la oración sugerida
-El carácter de nueva línea es \n
-A continuación, se incluye un ejemplo del comando: echo -e "\n<text_here>"
-En la parte inferior del archivo student_info.sh, agregue lo siguiente:
-echo -e "\nNombre, apellido y GPA de los estudiantes que no han seleccionado una especialidad y su nombre comienza con 'D' o tienen un GPA mayor que 3.0:"
-1715. psql SELECT * FROM students
-1715.1
-Comience por ver todos los datos en la tabla students.
+La última consulta fue: SELECT major_id, MIN(gpa) FROM students GROUP BY major_id;
+Usa las palabras clave SELECT, MIN, MAX, FROM y GROUP BY
+Ingresa SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id; en el indicador de psql
+Ingresa psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo has hecho
+2050. psql SELECT MIN(gpa), MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4
+2050.1
+Otra opción con GROUP BY es HAVING. Puede agregarlo al final de esta manera: SELECT <column> FROM <table> GROUP BY <column> HAVING <condition>. La condición debe ser una función de agregación con una prueba. Un ejemplo podría ser usar HAVING COUNT(*) > 0 para mostrar solo qué columna está agrupada y que tiene al menos una fila. Use HAVING para mostrar solo las filas de la última consulta que tienen un GPA máximo de 4.0.
 
 SUGERENCIAS
-Use las palabras clave SELECT y FROM con * para ver todos los datos
-Ingrese SELECT * FROM students; en el indicador de psql
+La última consulta fue: SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id;
+Use las palabras clave SELECT, MIN, MAX, FROM, GROUP BY y HAVING
+A continuación, se muestra un ejemplo: SELECT <column_1>, MIN(<column>), MAX(<column>) FROM <table> GROUP BY <column_1> HAVING <condition>;
+La condición que desea es HAVING MAX(gpa) = 4.0
+Ingrese SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0; en el indicador de psql
 Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
+2060. psql SELECT MIN(gpa) AS, MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4
+2060.1
+Dos de sus carreras tienen al menos un estudiante con un GPA de 4.0. Al observar los resultados, la columna se llama min. Puede cambiar el nombre de una columna con AS de esta manera: SELECT <column> AS <new_column_name> Ingrese el mismo comando, pero cambie el nombre de la columna min a min_gpa.
+
+SUGERENCIAS
+La última consulta fue: SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0;
+Utilice las palabras claves SELECT, MIN, AS, FROM y GROUP BY
+Renombra la columna MIN(gpa) de esta manera: MIN(gpa) AS min_gpa
+Ingrese SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0; en el indicador de psql
+Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
+2070. psql SELECT MIN(gpa) AS, MAX(gpa) AS FROM students GROUP BY major_id HAVING MAX(gpa) = 4
+2070.1
+Ahora la columna tiene un nombre mejor. Ingresa el mismo comando, pero cambia el nombre de la columna max a max_gpa también.
+
+SUGERENCIAS
+La última consulta fue: SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0;
+Usa las palabras clave SELECT, MIN, AS, FROM y GROUP BY
+Cambia el nombre de la columna MAX(gpa) de esta manera: MAX(gpa) AS max_gpa
+Ingresa SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) AS max_gpa FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0; en el indicador de psql
+Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
+2075. psql - SELECT major_id, COUNT() AS number_of_students FROM students GROUP BY major_id
+2075.1
+Eso es más descriptivo. Vea el major_id y la cantidad de estudiantes en cada major_id en una columna llamada number_of_students.
+
+SUGERENCIAS
+Use las palabras clave SELECT, COUNT, AS, FROM y GROUP BY
+A continuación, se incluye un ejemplo: SELECT <column_1>, COUNT(*) AS <custom_column_name> FROM <table> GROUP BY <column_1>;
+Desea realizar COUNT(*) AS number_of_students y GROUP BY major_id
+Ingrese SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id; en el indicador de psql
+Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
+2080. psql SELECT COUNT() AS FROM students GROUP BY major_id HAVING COUNT() < 8
+2080.1
+Use HAVING con la última consulta para mostrar solo las filas con menos de ocho estudiantes en la especialidad.
+
+SUGERENCIAS
+La última consulta fue: SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id;
+A continuación, se muestra un ejemplo: SELECT <column_1>, COUNT(*) AS <custom_column_name> FROM <table> GROUP BY <column_1> HAVING <condition>;
+La condición que desea es COUNT(*) < 8
+Ingrese SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id HAVING COUNT(*) < 8; en el indicador de psql
+Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql
