@@ -688,73 +688,42 @@ Lo están haciendo bastante bien. Agregue otro comando para `Major ID, total num
      
   7. **Acción**:
 
-     Al usar `GROUP BY`, todas las columnas del área `SELECT` deben incluirse en el área `GROUP BY`. Las demás columnas deben usarse con cualquiera de las funciones de agregación (`MAX, AVG, COUNT, etc.`).
+     Al usar `GROUP BY`, todas las columnas del área `SELECT` deben incluirse en el área `GROUP BY`. Las demás columnas deben usarse con cualquiera de las funciones de agregación (`MAX, AVG, COUNT, etc.`). Vuelve a ver los valores únicos de `major_id con GROUP BY`, pero observa cuál es el `GPA` más bajo en cada uno de ellos.
+     Ingresa `SELECT major_id, MIN(gpa) FROM students GROUP BY major_id;`
 
-     Vuelve a ver los valores únicos de major_id con GROUP BY, pero observa cuál es el GPA más bajo en cada uno de ellos.
+  8. **Acción**:
 
-SUGERENCIAS
-La última consulta fue SELECT major_id, COUNT(*) FROM students GROUP BY major_id;
-Usa las palabras clave SELECT, MIN, FROM y GROUP BY
-A continuación, se incluye un ejemplo: SELECT <column_1>, MIN(<column_2>) FROM <table> GROUP BY <column_1>;
-Ingresa SELECT major_id, MIN(gpa) FROM students GROUP BY major_id; en el indicador de psql
-Ingresa psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo has hecho
-2040. psql SELECT MIN(gpa), MAX(gpa) FROM students GROUP BY major_id
-2040.1
-Buen trabajo. Ingresa la misma consulta, pero agrega una columna que también te muestre el GPA más alto en cada especialidad.
+     Ingresa la misma consulta, pero agrega una columna que también te muestre el `GPA` más alto en cada especialidad.
 
-SUGERENCIAS
-La última consulta fue: SELECT major_id, MIN(gpa) FROM students GROUP BY major_id;
-Usa las palabras clave SELECT, MIN, MAX, FROM y GROUP BY
-Ingresa SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id; en el indicador de psql
-Ingresa psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo has hecho
-2050. psql SELECT MIN(gpa), MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4
-2050.1
-Otra opción con GROUP BY es HAVING. Puede agregarlo al final de esta manera: SELECT <column> FROM <table> GROUP BY <column> HAVING <condition>. La condición debe ser una función de agregación con una prueba. Un ejemplo podría ser usar HAVING COUNT(*) > 0 para mostrar solo qué columna está agrupada y que tiene al menos una fila. Use HAVING para mostrar solo las filas de la última consulta que tienen un GPA máximo de 4.0.
+     Ingresa `SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id;`
 
-SUGERENCIAS
-La última consulta fue: SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id;
-Use las palabras clave SELECT, MIN, MAX, FROM, GROUP BY y HAVING
-A continuación, se muestra un ejemplo: SELECT <column_1>, MIN(<column>), MAX(<column>) FROM <table> GROUP BY <column_1> HAVING <condition>;
-La condición que desea es HAVING MAX(gpa) = 4.0
-Ingrese SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0; en el indicador de psql
-Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
-2060. psql SELECT MIN(gpa) AS, MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4
-2060.1
-Dos de sus carreras tienen al menos un estudiante con un GPA de 4.0. Al observar los resultados, la columna se llama min. Puede cambiar el nombre de una columna con AS de esta manera: SELECT <column> AS <new_column_name> Ingrese el mismo comando, pero cambie el nombre de la columna min a min_gpa.
+  9. **Acción**:
 
-SUGERENCIAS
-La última consulta fue: SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0;
-Utilice las palabras claves SELECT, MIN, AS, FROM y GROUP BY
-Renombra la columna MIN(gpa) de esta manera: MIN(gpa) AS min_gpa
-Ingrese SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0; en el indicador de psql
-Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
-2070. psql SELECT MIN(gpa) AS, MAX(gpa) AS FROM students GROUP BY major_id HAVING MAX(gpa) = 4
-2070.1
-Ahora la columna tiene un nombre mejor. Ingresa el mismo comando, pero cambia el nombre de la columna max a max_gpa también.
+     Otra opción con `GROUP BY es HAVING`. Puede agregarlo al final de esta manera: `SELECT <column> FROM <table> GROUP BY <column> HAVING <condition>`. La condición debe ser una función de agregación con una prueba. Un ejemplo podría ser usar `HAVING COUNT(*) > 0` para mostrar solo qué columna está agrupada y que tiene al menos una fila. Use `HAVING` para mostrar solo las filas de la última consulta que tienen un `GPA máximo de 4.0`.
 
-SUGERENCIAS
-La última consulta fue: SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0;
-Usa las palabras clave SELECT, MIN, AS, FROM y GROUP BY
-Cambia el nombre de la columna MAX(gpa) de esta manera: MAX(gpa) AS max_gpa
-Ingresa SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) AS max_gpa FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0; en el indicador de psql
-Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
-2075. psql - SELECT major_id, COUNT() AS number_of_students FROM students GROUP BY major_id
-2075.1
-Eso es más descriptivo. Vea el major_id y la cantidad de estudiantes en cada major_id en una columna llamada number_of_students.
+     Ingrese `SELECT major_id, MIN(gpa), MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0;`
 
-SUGERENCIAS
-Use las palabras clave SELECT, COUNT, AS, FROM y GROUP BY
-A continuación, se incluye un ejemplo: SELECT <column_1>, COUNT(*) AS <custom_column_name> FROM <table> GROUP BY <column_1>;
-Desea realizar COUNT(*) AS number_of_students y GROUP BY major_id
-Ingrese SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id; en el indicador de psql
-Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql si aún no lo ha hecho
-2080. psql SELECT COUNT() AS FROM students GROUP BY major_id HAVING COUNT() < 8
-2080.1
-Use HAVING con la última consulta para mostrar solo las filas con menos de ocho estudiantes en la especialidad.
+  10. **Acción**:
 
-SUGERENCIAS
-La última consulta fue: SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id;
-A continuación, se muestra un ejemplo: SELECT <column_1>, COUNT(*) AS <custom_column_name> FROM <table> GROUP BY <column_1> HAVING <condition>;
-La condición que desea es COUNT(*) < 8
-Ingrese SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id HAVING COUNT(*) < 8; en el indicador de psql
-Ingrese psql --username=freecodecamp --dbname=students en la terminal para iniciar sesión en el indicador de psql
+      Puede cambiar el nombre de una columna con `AS` de esta manera: `SELECT <column> AS <new_column_name>` Ingrese el mismo comando, pero cambie el nombre de la columna `min` a `min_gpa`.
+
+      Ingrese `SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0;`
+
+  11. **Acción**:
+
+      Introduce el mismo comando, pero renombra también la columna `max` a `max_gpa`:
+
+      Ingresa `SELECT major_id, MIN(gpa) AS min_gpa, MAX(gpa) AS max_gpa FROM students GROUP BY major_id HAVING MAX(gpa) = 4.0;`.
+
+  12. **Acción**:
+     
+      Visualiza `major_id` y el número de estudiantes en cada `major_id` en una columna llamada `'number_of_students'`
+
+      Ingresa `SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id;`.
+
+  13. **Acción**:
+
+      Usa `HAVING` con la última consulta para mostrar solo las filas con menos de ocho estudiantes en la especialidad
+
+      Ingresa `SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id HAVING COUNT(*) < 8;`.
+      
