@@ -631,7 +631,7 @@ Ahora deberías poder encontrar lo que tu script está pidiendo. Agrega el coman
      echo "$($PSQL "SELECT ROUND(AVG(gpa), 2) FROM students")"
      ```
 
-     2. **Acción**:
+  2. **Acción**:
 
       Ejecute  el script para ver los resultados.
 
@@ -727,3 +727,305 @@ Lo están haciendo bastante bien. Agregue otro comando para `Major ID, total num
 
       Ingresa `SELECT major_id, COUNT(*) AS number_of_students FROM students GROUP BY major_id HAVING COUNT(*) < 8;`.
       
+### Paso 34  Agrega echo para mostrar el resultado de la consulta
+
+Agregar el comando `echo "$($PSQL "<consulta_aquí>")"` al final del archivo `student_info.sh` para imprimir los resultados sugeridos.
+
+  1. **Acción**:
+
+     - Agrega
+     
+       ```sh
+       echo "$($PSQL "SELECT major_id, COUNT(*) AS number_of_students, ROUND(AVG(gpa),2) AS average_gpa FROM students GROUP BY major_id HAVING COUNT(*) > 1")"
+       ```
+       
+  2. **Acción**:
+
+     - Ejecutar el script `./student_info.sh` en la terminal de comandos.
+       
+### Paso 35 Agregar echo
+
+Agrega un comando `echo` a tu script, como los otros, que imprima: `List of majors, in alphabetical order, that either no student is taking or has a student whose first name contains a case insensitive 'ma':`
+
+  1. **Acción**:
+     
+     Al final del archivo `student_info.sh`, agrega esto:
+
+     ```sh
+     echo -e "\nList of majors, in alphabetical order, that either no student is taking or has a student whose first name contains a case insensitive 'ma':"
+     ```
+
+### Paso 36 Comandos JOIN
+
+**psql students FULL JOIN majors:**
+
+La unión FULL JOIN incluirá todas las filas de ambas tablas, tengan o no una fila que use esa clave foránea en la otra. A partir de ahí, podrías usar cualquiera de los métodos anteriores para filtrar, agrupar, ordenar, etc.
+
+  1. **Acción**:
+    Si deseas ver el nombre de una especialidad que un estudiante está tomando, necesitas unir las dos tablas en una. Aquí tienes un ejemplo de cómo hacerlo: `SELECT * FROM <table_1> FULL JOIN <table_2> ON <table_1>.<foreign_key_column> = <table_2>.<foreign_key_column>;`
+    Ingresa: `SELECT * FROM students FULL JOIN majors ON students.major_id = majors.major_id;`
+
+**psql students LEFT JOIN majors:**
+Una LEFT JOIN obtiene todas las filas de la tabla izquierda, pero solo las filas de la tabla derecha que están vinculadas desde la izquierda. Une las tablas students y majors con una LEFT JOIN. Usa primero la tabla students cuando sea aplicable.
+
+  2. **Acción**:
+
+     Escribe: `SELECT * FROM students LEFT JOIN majors ON students.major_id = majors.major_id;`
+     
+**psql students RIGHT JOIN majors:**
+
+Una RIGHT JOIN devuelve todas las filas de la tabla de la derecha (la tabla después de JOIN), y las filas correspondientes de la tabla de la izquierda (la tabla antes de JOIN).
+
+  3. **Acción**:
+
+     Une las mismas dos tablas con una RIGHT JOIN esta vez.
+
+     Escribe: `SELECT * FROM students RIGHT JOIN majors ON students.major_id = majors.major_id;`
+     
+**psql students INNER JOIN majors:**
+
+Una INNER JOIN devuelve solo las filas donde hay coincidencia en ambas tablas. Es decir, solo se incluyen en el resultado las filas que tienen correspondencias en ambas tablas basadas en la condición de JOIN.
+
+  4. **Acción**:
+
+     Une las tablas students y majors con una INNER JOIN. Usa primero la tabla students cuando sea aplicable.
+
+     Escribe: `SELECT * FROM students INNER JOIN majors ON students.major_id = majors.major_id;`
+     
+### Paso 37 Ejercicios Prácticos de JOIN en SQL
+
+Ahora deberías tener una idea sobre los cuatro tipos principales de JOIN. Intenta usar un `LEFT JOIN` para mostrar todas las especialidades, pero solo los estudiantes que tienen una especialidad
+
+  1. **Acción**:
+
+     Ingresa `SELECT * FROM majors LEFT JOIN students ON majors.major_id = students.major_id;`.
+     
+     Ahora, usa el `JOIN` apropiado para mostrar solo los estudiantes que están inscritos en una especialidad, y solo las especialidades que tienen un estudiante inscrito. Quieres unir las tablas `students` y `majors` de nuevo.
+     
+     Únelas con el `JOIN` que solo muestra filas si tienen un valor en la columna de clave foránea de la otra tabla.
+     
+  3. **Acción**:
+
+     Ingresa `SELECT * FROM majors INNER JOIN students ON majors.major_id = students.major_id;`.
+     
+     Intenta usar un RIGHT JOIN para mostrar todos los estudiantes, pero solo las especialidades si un estudiante está inscrito en ellas.
+     
+     Une las tablas `students` y `majors` de nuevo
+     
+  4. **Acción**:
+
+     Ingresa `SELECT * FROM majors RIGHT JOIN students ON majors.major_id = students.major_id;`.
+
+     Usa el `JOIN` apropiado con las mismas dos tablas para mostrar todas las filas en ambas tablas, independientemente de si tienen un valor en la columna de clave foránea o no
+     
+  5. **Acción**:
+
+     Ingresa `SELECT * FROM majors FULL JOIN students ON majors.major_id = students.major_id;`.
+     
+### Paso 38 PSQL Consultas
+
+**psql SELECT * students INNER JOIN majors**
+
+Usa el `JOIN` que muestre solo a los estudiantes que tienen una especialidad (majors) y solo a las especialidades que tienen un estudiante, sin agregar ninguna condición.
+
+  1. **Acción**:
+
+     Escribe: `SELECT * FROM students INNER JOIN majors ON students.major_id = majors.major_id;`.
+
+     **psql SELECT major students INNER JOIN majors**
+
+     Escribe el mismo comando, pero solo selecciona la columna que necesitas. Solo necesitas la columna `major`
+     
+  3. **Acción**:
+
+     Escribe `SELECT major FROM students INNER JOIN majors ON students.major_id = majors.major_id;`.
+
+     **psql SELECT DISTINCT(major) students INNER JOIN majors**
+
+     Usa `DISTINCT` para devolver solo los valores únicos y ver la lista de especialidades que tienen estudiantes. Debes cambiar `major` de la consulta anterior a `DISTINCT(major)`
+
+  4. **Acción**:
+
+     Escribe `SELECT DISTINCT(major) FROM students INNER JOIN majors ON students.major_id = majors.major_id;`.
+
+     **psql SELECT * students RIGHT JOIN majors**
+
+     Supongamos que quieres una lista de las especialidades que los estudiantes no están cursando. Usa el JOIN más eficiente para unir las dos tablas que necesitas. Solo une las tablas por ahora, no utilices ninguna otra condición.
+
+  5. **Acción**:
+
+     Escribe `SELECT * FROM students RIGHT JOIN majors ON students.major_id = majors.major_id; en el prompt de psql.`.
+
+     **psql SELECT * students RIGHT JOIN majors WHERE student_id IS NULL**
+
+     Ahora puedes ver las que no tienen estudiantes. Agrega una condición WHERE para ver solo las especialidades sin estudiantes, utilizando `student_id` en la condición.
+
+  6. **Acción**:
+
+     Escribe `SELECT * FROM students RIGHT JOIN majors ON students.major_id = majors.major_id WHERE student_id IS NULL;`.
+
+     **psql SELECT major students RIGHT JOIN majors WHERE student_id IS NULL**
+
+     Selecciona solo las columnas necesarias para ver la lista de especialidades sin estudiantes. La columna que necesitas es `major`
+
+  7. **Acción**:
+
+     Escribe `SELECT major FROM students RIGHT JOIN majors ON students.major_id = majors.major_id WHERE student_id IS NULL;`.
+
+     **psql SELECT * students LEFT JOIN majors**
+
+     Usa el JOIN más eficiente para unir las tablas necesarias si se te pidiera obtener el nombre, apellido, especialidad y GPA de los estudiantes que están cursando Data Science o tienen un GPA de 3.8 o más. Solo une las tablas por ahora, no utilices ninguna otra condición
+  
+  8. **Acción**:
+
+     Escribe `SELECT * FROM students LEFT JOIN majors ON students.major_id = majors.major_id;`.
+
+     **psql SELECT students LEFT JOIN majors WHERE major = Data Science OR gpa >= 3.8**
+
+     Usa `WHERE` para obtener solo los estudiantes que cumplen con los requisitos. Como recordatorio, el objetivo era encontrar estudiantes que estén cursando Data Science o que tengan un GPA de 3.8 o más. Debes agregar dos condiciones para verificar la columna `major` y otra para la columna `gpa`
+     
+  9. **Acción**:
+
+     Escribe `SELECT * FROM students LEFT JOIN majors ON students.major_id = majors.major_id WHERE major='Data Science' OR gpa >= 3.8;`.
+
+     **psql SELECT columns LEFT JOIN WHERE major = Data Science OR gpa >= 3.8**
+
+     Escribe el mismo comando, pero selecciona solo las columnas que necesitas. Habían cuatro: el nombre del estudiante, apellido, su especialidad y GPA. Selecciónalos en ese orden.
+
+  10. **Acción**:
+
+      Escribe `SELECT first_name, last_name, major, gpa FROM students LEFT JOIN majors ON students.major_id = majors.major_id WHERE major='Data Science' OR gpa >= 3.8;`.
+
+      **psql SELECT * students FULL JOIN majors**
+
+      Usa el JOIN más eficiente para unir todas las tablas necesarias si quisieras obtener la lista de estudiantes y sus cursos, con un enfoque particular en los estudiantes que no tienen ningún curso asignado todavía y cursos que no tienen ningún estudiante inscrito. Solo une las tablas por ahora, no utilices ninguna otra condición.
+
+  11. **Acción**:
+
+      Escribe `SELECT * FROM students FULL JOIN courses ON students.course_id = courses.course_id;`.
+
+      **psql SELECT * students FULL JOIN majors WHERE first_name || major LIKE ri**
+
+      Agrega una cláusula `WHERE` a la consulta anterior para obtener solo las filas que necesitas. Las filas que querías eran aquellas con un nombre o especialidad que contuvieran "ri":
+
+  12. **Acción**
+      
+      Escribe `SELECT * FROM students FULL JOIN majors ON students.major_id = majors.major_id WHERE first_name LIKE '%ri%' OR major LIKE '%ri%';`.
+
+      **psql SELECT major FROM students FULL JOIN majors WHERE first_name || major LIKE ri**
+
+      Solo querías mostrar las columnas `first_name` y `major`. Ingresa la consulta anterior, pero solo obtén las columnas que necesitas
+
+  13. **Acción**:
+
+      Escribe `SELECT first_name, major FROM students FULL JOIN majors ON students.major_id = majors.major_id WHERE first_name LIKE '%ri%' OR major LIKE '%ri%';`.
+      
+### Paso 39 Agrega echo
+Agrega el comando para imprimir lo que la instrucción está pidiendo.
+1. **Acción**:
+- Agrega:
+```sh
+echo "$($PSQL "SELECT major FROM students FULL JOIN majors ON students.major_id = majors.major_id WHERE major IS NOT NULL AND (student_id IS NULL OR first_name ILIKE '%ma%') ORDER BY major")"
+```
+2. **Acción**:
+- Ejecuta el script `./student_info.sh` en la terminal.
+### Paso 40  Agregar echo para cursos sin estudiantes o 'Obie Hilpert'
+En el script, agrega un comando para imprimir esta frase como las demás: Lista de cursos únicos, en orden alfabético inverso, que ningún estudiante o 'Obie Hilpert' está tomando:
+1. **Acción**:
+- Al final del archivo `student_info.sh`, agrega:
+```sh
+echo -e "\nList of unique courses, in reverse alphabetical order, that no student or 'Obie Hilpert' is taking:"
+```
+### Paso 41 PSQL Consultas
+**psql SELECT * FROM students FULL JOIN majors**
+Comienza haciendo un FULL JOIN en tus tablas de `students` y `majors`:
+1. **Acción**:
+- Escribe `SELECT * FROM students FULL JOIN majors ON students.major_id = majors.major_id;`.
+**psql SELECT students.major_id students FULL JOIN majors**
+Si observas los nombres de las columnas, verás dos columnas `major_id`: una de la tabla `students` y otra de la tabla `majors`. Si intentas consultarlas usando solo `major_id`, obtendrás un error. Necesitarás especificar de qué tabla quieres la columna, así: `<table>.<column>`. Ingresa el mismo JOIN pero obteniendo solo la columna `major_id` de la tabla `students`:
+2. **Acción**:
+- Escribe `SELECT students.major_id FROM students FULL JOIN majors ON students.major_id = majors.major_id;`.
+**psql SELECT students.major_id FROM students FULL JOIN majors AS m**
+Utilizaste 'AS' para renombrar columnas. También puedes usarlo para renombrar tablas o darles alias. Aquí tienes un ejemplo: `SELECT * FROM <table> AS <new_name>;`. Ingresa la misma consulta que acabas de hacer, pero renombra la tabla `majors` como 'm':
+3. **Acción**:
+- Escribe `SELECT students.major_id FROM students FULL JOIN majors AS m ON students.major_id = m.major_id;`.
+**psql SELECT s.major_id FROM students AS s FULL JOIN majors AS m**
+ Ingresa la misma consulta, pero renombra la tabla `students` como 's' también:
+ 4. **Acción**:
+- Escribe `SELECT s.major_id FROM students AS s FULL JOIN majors AS m ON s.major_id = m.major_id;`.
+**psql SELECT * FROM students FULL JOIN majors USING**
+Hay una palabra clave de acceso directo, `USING`, para hacer JOIN entre tablas si la columna de clave foránea tiene el mismo nombre en ambas tablas. Aquí tienes un ejemplo: `SELECT * FROM <table_1> FULL JOIN <table_2> USING(<column>);`:
+5. **Acción**:
+- Escribe `SELECT * FROM students FULL JOIN majors USING(major_id);`.
+**psql SELECT * FROM students FULL JOIN majors USING FULL JOIN major_courses USING**
+Puedes agregar una tercera tabla a un JOIN así: `SELECT * FROM <table_1> FULL JOIN <table_2> USING(<column>) FULL JOIN <table_3> USING(<column>)`. Este ejemplo unirá las dos primeras tablas en una, convirtiéndola en la tabla izquierda para el segundo JOIN. Usa este método para unir las dos tablas de la consulta anterior con la tabla `majors_courses`:
+6. **Acción**:
+- Escribe `SELECT * FROM students FULL JOIN majors USING(major_id) FULL JOIN majors_courses USING(major_id);`.
+**psql SELECT * students FULL JOIN majors USING JOIN major_courses USING JOIN courses USING**
+Puedes unir tantas tablas como quieras. Une la última tabla a la consulta anterior para obtener los nombres de los cursos con toda esta información:
+7. **Acción**:
+- Escribe `SELECT * FROM students FULL JOIN majors USING(major_id) FULL JOIN majors_courses USING(major_id) FULL JOIN courses USING(course_id);`.
+### Paso 42 Agregar echo result
+En el script, agrega el comando para imprimir la información sugerida.
+1. **Acción**:
+- Agrega
+```sh
+echo "$($PSQL "SELECT DISTINCT(course) FROM students RIGHT JOIN majors USING(major_id) INNER JOIN majors_courses USING(major_id) INNER JOIN courses USING(course_id) WHERE (first_name = 'Obie' AND last_name = 'Hilpert') OR student_id IS NULL ORDER BY course DESC")"
+```
+2. **Acción**:
+- Ejecuta el script `./student_info.sh` e la terminal.
+### Paso 43 Agregar echo para cursos con solo un estudiante
+Último paso. Añade un comando que imprima la frase: `List of courses, in alphabetical order, with only one student enrolled:`:
+1. **Acción**:
+- Agrega al  final del archivo `student_info.sh`:
+```sh
+echo -e "\nList of courses, in alphabetical order, with only one student enrolled:"
+```
+### Paso 44 Agregar resultado de consulta con echo
+Añade un comando al final del script para imprimir la información sugerida:
+1. **Acción**:
+- Agrega al  final del archivo `student_info.sh`:
+```sh
+echo "$($PSQL "SELECT course FROM students INNER JOIN majors_courses USING(major_id) INNER JOIN courses USING(course_id) GROUP BY course HAVING COUNT(student_id) = 1 ORDER BY course")"
+```
+2. **Acción**:
+- Ejecuta el script una última vez. :hola:.
+19:13
+### Archivo  `student_info.sh`
+```sh
+#!/bin/bash
+# Info about my computer science students from students database
+echo -e "\n~~ My Computer Science Students ~~\n"
+PSQL="psql -X --username=freecodecamp --dbname=students --no-align --tuples-only -c"
+echo -e "\nFirst name, last name, and GPA of students with a 4.0 GPA:"
+echo "$($PSQL "SELECT first_name, last_name, gpa FROM students WHERE gpa = 4.0")"
+echo -e "\nAll course names whose first letter is before 'D' in the alphabet:"
+echo "$($PSQL "SELECT course FROM courses WHERE course < 'D'")"
+echo -e "\nFirst name, last name, and GPA of students whose last name begins with an 'R' or after and have a GPA greater than 3.8 or less than 2.0:"
+echo "$($PSQL "SELECT first_name, last_name, gpa FROM students WHERE last_name >= 'R' AND (gpa > 3.8 OR gpa < 2.0)")"
+echo -e "\nLast name of students whose last name contains a case insensitive 'sa' or have an 'r' as the second to last letter:"
+echo "$($PSQL "SELECT last_name FROM students WHERE last_name ILIKE '%sa%' OR last_name ILIKE '%r_'")"
+echo -e "\nFirst name, last name, and GPA of students who have not selected a major and either their first name begins with 'D' or they have a GPA greater than 3.0:"
+echo "$($PSQL "SELECT first_name, last_name, gpa FROM students WHERE major_id IS NULL AND (first_name LIKE 'D%' OR gpa > 3.0)")"
+echo -e "\nCourse name of the first five courses, in reverse alphabetical order, that have an 'e' as the second letter or end with an 's':"
+echo "$($PSQL "SELECT course FROM courses WHERE course LIKE '_e%' OR course LIKE '%s' ORDER BY course DESC LIMIT 5")"
+echo -e "\nAverage GPA of all students rounded to two decimal places:"
+echo "$($PSQL "SELECT ROUND(AVG(gpa), 2) FROM students")"
+echo -e "\nMajor ID, total number of students in a column named 'number_of_students', and average GPA rounded to two decimal places in a column name 'average_gpa', for each major ID in the students table having a student count greater than 1:"
+echo "$($PSQL "SELECT major_id, COUNT(*) AS number_of_students, ROUND(AVG(gpa), 2) AS average_gpa FROM students GROUP BY major_id HAVING COUNT(*) > 1")"
+echo -e "\nList of majors, in alphabetical order, that either no student is taking or has a student whose first name contains a case insensitive 'ma':"
+echo "$($PSQL "SELECT major FROM students FULL JOIN majors ON students.major_id = majors.major_id WHERE major IS NOT NULL AND (student_id IS NULL OR first_name ILIKE '%ma%') ORDER BY major")"
+echo -e "\nList of unique courses, in reverse alphabetical order, that no student or 'Obie Hilpert' is taking:"
+echo "$($PSQL "SELECT DISTINCT(course) FROM students FULL JOIN majors USING(major_id) FULL JOIN majors_courses USING(major_id) FULL JOIN courses USING(course_id) WHERE student_id IS NULL OR (first_name = 'Obie' AND last_name = 'Hilpert') ORDER BY course DESC")"
+echo -e "\nList of courses, in alphabetical order, with only one student enrolled:"
+echo "$($PSQL "SELECT course FROM students INNER JOIN majors_courses USING(major_id) INNER JOIN courses USING(course_id) GROUP BY course HAVING COUNT(student_id) = 1 ORDER BY course")"
+```
+
+
+
+
+
+
+
+
+
