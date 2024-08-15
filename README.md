@@ -3,12 +3,12 @@
 
 ### [Learn SQL by Building a Student Database: Part 1](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-1)
 
-En el primer tutorial, aprendimos a construir y gestionar una base de datos de
+En el primer tutorial, se construyo y gestiono una base de datos de
 estudiantes utilizando SQL y PostgreSQL. configurando el entorno
 necesario, que incluia la instalación de PostgreSQL y el uso de máquinas
 virtuales. A través de comandos SQL, se crearon tablas con
 claves primarias y foráneas,  inserción y consulta de datos, y la
-actualización y eliminación de registros. Además, explorarás el uso de
+actualización y eliminación de registros. se usaron los
 scripts Bash para automatizar tareas y gestionar permisos de archivos.
 
 Haz clic [aquí para iniciar el primer tutorial](https://gitpod.io/new/?autostart=true#CODEROAD_TUTORIAL_URL=https%3A%2F%2Fraw.githubusercontent.com%2FLaboratoria%2Flearn-sql-by-building-a-student-database-part-1%2Fmain%2Ftutorial.json,CODEROAD_DISABLE_RUN_ON_SAVE=true/https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-1).
@@ -945,18 +945,6 @@ done
 ```
 
 
-### [Learn SQL by Building a Student Database: Part 2](https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
 
-En el segundo tutorial, profundizarás en la administración y análisis
-de bases de datos de estudiantes usando SQL y PostgreSQL. Aprenderás a
-realizar consultas avanzadas mediante JOIN para combinar datos de múltiples
-tablas y a utilizar funciones de agrupamiento (GROUP BY) y ordenamiento
-(ORDER BY). Se cubrirán también las funciones agregadas para sumarizar
-datos y la modificación de estructuras de tablas existentes con ALTER TABLE.
-Esta parte incluye la creación de copias de seguridad y restauración
-de bases de datos, y el uso de scripts Bash para una gestión más
-eficiente y segura de tu entorno.
-
-Haz clic [aquí para iniciar el segundo tutorial](https://gitpod.io/new/?autostart=true#CODEROAD_TUTORIAL_URL=https%3A%2F%2Fraw.githubusercontent.com%2FLaboratoria%2Flearn-sql-by-building-a-student-database-part-2%2Fmain%2Ftutorial.json,CODEROAD_DISABLE_RUN_ON_SAVE=true/https://github.com/Laboratoria/learn-sql-by-building-a-student-database-part-2)
 
 
